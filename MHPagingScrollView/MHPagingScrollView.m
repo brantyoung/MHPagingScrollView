@@ -3,7 +3,7 @@
 
 @interface MHPage : NSObject
 
-@property (nonatomic, strong) UIView *view;
+@property (nonatomic, strong) UIViewController *viewController;
 @property (nonatomic, assign) NSUInteger index;
 
 @end
@@ -107,14 +107,16 @@
 	return NO;
 }
 
-- (UIView *)dequeueReusablePage
+- (UIViewController *)dequeueReusablePage
 {
 	MHPage *page = [_recycledPages anyObject];
 	if (page != nil)
 	{
-		UIView *view = page.view;
+//		UIViewController *viewController = page.viewController;
 		[_recycledPages removeObject:page];
-		return view;
+        return nil;
+        
+//		return viewController;
 	}
 	return nil;
 }
@@ -143,7 +145,11 @@
 		if ((int)page.index < firstNeededPageIndex || (int)page.index > lastNeededPageIndex)
 		{
 			[_recycledPages addObject:page];
-			[page.view removeFromSuperview];
+            
+            [page.viewController willMoveToParentViewController:nil];
+			[page.viewController removeFromParentViewController];
+			[page.viewController.view removeFromSuperview];
+            [page.viewController didMoveToParentViewController:nil];
 		}
 	}
 
@@ -153,14 +159,21 @@
 	{
 		if (![self isDisplayingPageForIndex:i])
 		{
-			UIView *pageView = [_pagingDelegate pagingScrollView:self pageForIndex:i];
-			pageView.frame = [self frameForPageAtIndex:i];
-			pageView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-			[self addSubview:pageView];
-
+			UIViewController *pageViewController = [_pagingDelegate pagingScrollView:self pageForIndex:i];
+			pageViewController.view.frame = [self frameForPageAtIndex:i];
+			pageViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+            
+            [pageViewController willMoveToParentViewController:self.controller];
+            [self.controller addChildViewController: pageViewController];
+			[self addSubview:pageViewController.view];
+            [pageViewController didMoveToParentViewController:self.controller];
+            
+            // TODO: MAY BE HAS MORE ELEGANT METHOD
+            [pageViewController viewWillAppear:YES];
+            
 			MHPage *page = [[MHPage alloc] init];
 			page.index = i;
-			page.view = pageView;
+			page.viewController = pageViewController;
 			[_visiblePages addObject:page];
 		}
 	}
@@ -195,7 +208,7 @@
 	self.contentSize = [self contentSizeForPagingScrollView];
 
 	for (MHPage *page in _visiblePages)
-		page.view.frame = [self frameForPageAtIndex:page.index];
+		page.viewController.view.frame = [self frameForPageAtIndex:page.index];
 
 	CGFloat pageWidth = self.bounds.size.width;
 	CGFloat newOffset = (_firstVisiblePageIndexBeforeRotation + _percentScrolledIntoFirstVisiblePage) * pageWidth;

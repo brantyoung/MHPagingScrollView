@@ -15,7 +15,7 @@
  * Asks the delegate for a page to insert. The delegate should ask for a
  * reusable view using dequeueReusablePageView.
  */
-- (UIView *)pagingScrollView:(MHPagingScrollView *)pagingScrollView pageForIndex:(NSUInteger)index;
+- (UIViewController *)pagingScrollView:(MHPagingScrollView *)pagingScrollView pageForIndex:(NSUInteger)index;
 
 @end
 
@@ -35,6 +35,8 @@
 
 /* The width of the preview pages. */
 @property (nonatomic, assign) UIEdgeInsets previewInsets;
+
+@property (nonatomic, weak) UIViewController *controller;
 
 /*
  * Makes the page at the requested index visible.
