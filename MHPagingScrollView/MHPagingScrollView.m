@@ -112,11 +112,10 @@
 	MHPage *page = [_recycledPages anyObject];
 	if (page != nil)
 	{
-//		UIViewController *viewController = page.viewController;
+		UIViewController *viewController = page.viewController;
 		[_recycledPages removeObject:page];
-        return nil;
         
-//		return viewController;
+		return viewController;
 	}
 	return nil;
 }
