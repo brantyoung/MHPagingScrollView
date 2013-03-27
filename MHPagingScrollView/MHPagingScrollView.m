@@ -69,7 +69,7 @@
 	if (animated)
 	{
 		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.3f];
+		[UIView setAnimationDuration:0.05f];
 		[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	}
 
