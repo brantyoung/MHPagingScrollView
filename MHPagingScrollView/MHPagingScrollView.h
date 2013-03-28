@@ -58,6 +58,8 @@
  */
 - (void)reloadPages;
 
+- (void)reloadWithoutDisturbUser;
+
 /*
  * Call this from your view controller's UIScrollViewDelegate.
  */

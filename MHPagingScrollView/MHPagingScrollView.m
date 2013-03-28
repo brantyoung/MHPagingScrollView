@@ -127,6 +127,20 @@
 	return rect;
 }
 
+- (void)reloadWithoutDisturbUser
+{
+    NSUInteger index = [self indexOfSelectedPage];
+	self.contentSize = [self contentSizeForPagingScrollView];
+    
+    for (MHPage *page in _visiblePages) {
+        page.viewController.view.frame = [self frameForPageAtIndex:page.index+1];
+        //        page.viewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        page.index += 1;
+    }
+    
+	self.contentOffset = CGPointMake(self.bounds.size.width * (index+1), 0);
+}
+
 - (void)tilePages 
 {
 	CGRect visibleBounds = self.bounds;
