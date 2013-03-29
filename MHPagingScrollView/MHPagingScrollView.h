@@ -82,4 +82,6 @@
  */
 - (void)didReceiveMemoryWarning;
 
+- (UIViewController *)currentSelectedViewController;
+
 @end

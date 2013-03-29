@@ -86,6 +86,19 @@
 	return currentPage;
 }
 
+- (UIViewController *)currentSelectedViewController
+{
+    NSUInteger index = [self indexOfSelectedPage];
+    
+	for (MHPage *page in _visiblePages)
+	{
+		if (page.index == index)
+			return page.viewController;
+	}
+    
+    return nil;
+}
+
 - (NSUInteger)numberOfPages
 {
 	return [_pagingDelegate numberOfPagesInPagingScrollView:self];
