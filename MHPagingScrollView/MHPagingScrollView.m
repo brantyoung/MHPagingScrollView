@@ -66,17 +66,7 @@
 
 - (void)selectPageAtIndex:(NSUInteger)index animated:(BOOL)animated
 {
-	if (animated)
-	{
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.05f];
-		[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-	}
-
-	self.contentOffset = CGPointMake(self.bounds.size.width * index, 0);
-
-	if (animated)
-		[UIView commitAnimations];
+    [self setContentOffset:CGPointMake(self.bounds.size.width * index, 0) animated:animated];
 }
 
 - (NSUInteger)indexOfSelectedPage
