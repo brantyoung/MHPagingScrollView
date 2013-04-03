@@ -184,9 +184,6 @@
 			[self addSubview:pageViewController.view];
             [pageViewController didMoveToParentViewController:self.controller];
             
-            // TODO: MAY BE HAS MORE ELEGANT METHOD
-            [pageViewController viewWillAppear:YES];
-            
 			MHPage *page = [[MHPage alloc] init];
 			page.index = i;
 			page.viewController = pageViewController;
